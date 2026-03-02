@@ -15,8 +15,8 @@
 define image_run_config_ubuntu_metadata
 [ ! -f ~/.ssh/id_rsa ] && ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""; \
 key=`cat ~/.ssh/id_rsa.pub`; \
-sed -i "s#SSH_KEY#$${key}#g" $(1)/$(QEMU_UBUNTU_USERDATA_TEXT); \
-cloud-localds $(1)/$(2) $(1)/$(QEMU_UBUNTU_USERDATA_TEXT) $(1)/$(QEMU_UBUNTU_METADATA_TEXT)
+sed -i "s#SSH_KEY#$${key}#g" $(1)/$(IMAGE_UBUNTU_USERDATA); \
+cloud-localds $(1)/$(2) $(1)/$(IMAGE_UBUNTU_USERDATA) $(1)/$(IMAGE_UBUNTU_METADATA)
 endef
 
 
@@ -26,7 +26,7 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_config_ubuntu
-	$(Q)$(call image_run_config_ubuntu_metadata,$(3),$(QEMU_UBUNTU_METADATA_IMAGE))
+	$(Q)$(call image_run_config_ubuntu_metadata,$(3),$(IMAGE_UBUNTU_METADATA))
 endef
 
 
@@ -37,12 +37,12 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_build_ubuntu
-	$(Q)-rm -fv $(3)/$(QEMU_UEFI_BOOT_CODE_IMAGE) $(3)/$(QEMU_UEFI_BOOT_DATA_IMAGE)
-	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(QEMU_UEFI_BOOT_CODE_IMAGE)
-	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(QEMU_UEFI_BOOT_DATA_IMAGE)
-	$(Q)dd if=$(3)/$(QEMU_UEFI_BOOT_FW_IMAGE) bs=1M of=$(3)/$(QEMU_UEFI_BOOT_CODE_IMAGE) conv=notrunc
-	$(Q)cd $(3) && [ ! -f $(QEMU_UBUNTU_SYSTEM_IMAGE) ] && \
-		qemu-img create -f qcow2 -b $(QEMU_UBUNTU_BASE_IMAGE) -o backing_fmt=qcow2 $(QEMU_UBUNTU_SYSTEM_IMAGE) 20G || :;
+	$(Q)-rm -fv $(3)/$(IMAGE_UBUNTU_UEFI_CODE) $(3)/$(IMAGE_UBUNTU_UEFI_DATA)
+	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE)
+	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_DATA)
+	$(Q)dd if=$(3)/$(IMAGE_UBUNTU_UEFI_FW) bs=1M of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE) conv=notrunc
+	$(Q)cd $(3) && [ ! -f $(IMAGE_UBUNTU_SYSTEM) ] && \
+		qemu-img create -f qcow2 -b $(IMAGE_UBUNTU_BASE) -o backing_fmt=qcow2 $(IMAGE_UBUNTU_SYSTEM) 30G || :;
 endef
 
 

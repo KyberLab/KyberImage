@@ -22,7 +22,7 @@ IMAGE_BUILD_METHOD			?= linux
 IMAGE_BUILD_OPTS			?= 
 
 # Image install phase
-IMAGE_INSTALL_METHOD		?= install
+IMAGE_INSTALL_METHOD		?= linux
 IMAGE_INSTALL_OPTS			?= 
 
 # Image package phase

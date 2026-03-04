@@ -35,10 +35,8 @@ endef
 # $(4) install path
 define image_run_build_linux
 	$(Q)cd $(3) && \
-			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(1) && \
-			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(1) modules && \
-			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(1) \
-				INSTALL_MOD_PATH=$(3)/$(IMAGE_LINUX_INSTALL_DIR) modules_install
+			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) && \
+			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) modules
 endef
 
 
@@ -49,13 +47,10 @@ endef
 # $(4) install path
 # $(5) install list
 define image_run_install_linux
-	$(Q)$(call xprint_title,	"Image $(IMAGE_BUILD_GOAL) Install",$(BG_YELLOW))
-	$(Q)$(call xprint_value,	"Install Options",	$(1),$($(BG_PURPLE)))
-	$(Q)$(call xprint_value,	"Config Path",		$(2),$($(BG_PURPLE)))
-	$(Q)$(call xprint_value,	"Build Path",		$(3),$($(BG_PURPLE)))
-	$(Q)$(call xprint_value,	"Install Path",		$(4),$($(BG_PURPLE)))
-	$(Q)$(call xprint_value,	"Install List",		$(5),$($(BG_PURPLE)))
-	$(Q)$(call xprint_line,$(BG_YELLOW))
+	$(Q)cd $(3) && \
+			$(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) \
+				INSTALL_MOD_PATH=$(3)/$(IMAGE_LINUX_INSTALL_DIR) $(if $(1),$(1),modules_install)
+	$(call image_run_install_install,$(1),$(2),$(3),$(4),$(5))
 endef
 
 
@@ -65,7 +60,7 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_clean_linux
-	$(Q)cd $(3) && $(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(1) clean
+	$(Q)cd $(3) && $(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(if $(1),$(1),clean)
 endef
 
 
@@ -75,6 +70,6 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_distclean_linux
-	$(Q)cd $(3) && $(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(1) distclean
+	$(Q)cd $(3) && $(IMAGE_LINUX_ENV) make O=$(3)/$(IMAGE_LINUX_BUILD_DIR) $(if $(1),$(1),distclean)
 endef
 

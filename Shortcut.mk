@@ -23,10 +23,14 @@ IMAGE_BUILD_SHORTCUT		:= $(foreach image,$(IMAGE_BUILD_FULL_LIST),$(addprefix $(
 #$(error IMAGE_BUILD_SHORTCUT=$(IMAGE_BUILD_SHORTCUT))
 
 
-.PHONY : $(IMAGE_BUILD_SHORTCUT)
+.PHONY : $(IMAGE_BUILD_PHASES) $(IMAGE_BUILD_SHORTCUT)
+
+$(IMAGE_BUILD_PHASES) : 
+	$(call image_shortcut_helper,$@)
+
 
 $(IMAGE_BUILD_SHORTCUT) : 
-	$(call image_shortcut_helper,$@)
+	$(Q)$(MAKE) image_$@
 
 
 # image_shortcut_goal_name

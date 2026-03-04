@@ -48,7 +48,7 @@ endef
 
 
 # image_run_install_skip
-# $(1) build options
+# $(1) install options
 # $(2) config path
 # $(3) build path
 # $(4) install path

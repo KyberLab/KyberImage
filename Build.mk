@@ -63,16 +63,25 @@ endif
 # Default targets
 
 BUILD_EXPORT_ENV		= \
-	BUILD_TYPE_NUM=$(BUILD_TYPE_NUM) \
-	BUILD_TYPE_STR=$(BUILD_TYPE_STR) \
-	BUILD_FLAVOR=$(BUILD_FLAVOR) \
-	WORKSPACE_ROOT_PATH=$(WORKSPACE_ROOT_PATH) \
-	BUILD_ROOT_PATH=$(BUILD_ROOT_PATH) \
-	CONFIG_ROOT_PATH=$(CONFIG_ROOT_PATH) \
-	CONFIG_IMAGE_PATH=$(CONFIG_IMAGE_PATH) \
-	BENCH_CMD_ARGS=$(BENCH_CMD_ARGS) \
-	V=$(V) \
-	IV=$(IV)
+	BUILD_EXPORT_ENV_ENABLE=1 \
+	$(if $(BUILD_TYPE_NUM),BUILD_TYPE_NUM=$(BUILD_TYPE_NUM)) \
+	$(if $(BUILD_TYPE_STR),BUILD_TYPE_STR=$(BUILD_TYPE_STR)) \
+	$(if $(BUILD_FLAVOR),BUILD_FLAVOR=$(BUILD_FLAVOR)) \
+	$(if $(WORKSPACE_ROOT_PATH),WORKSPACE_ROOT_PATH=$(WORKSPACE_ROOT_PATH)) \
+	$(if $(BUILD_ROOT_PATH),BUILD_ROOT_PATH=$(BUILD_ROOT_PATH)) \
+	$(if $(CONFIG_ROOT_PATH),CONFIG_ROOT_PATH=$(CONFIG_ROOT_PATH)) \
+	$(if $(CONFIG_IMAGE_PATH),CONFIG_IMAGE_PATH=$(CONFIG_IMAGE_PATH)) \
+	$(if $(BENCH_CMD_ARGS),BENCH_CMD_ARGS=$(BENCH_CMD_ARGS)) \
+	$(if $(V),V=$(V)) \
+	$(if $(IV),IV=$(IV))
+
+
+# build_export_env
+# return : build export environment
+define build_export_env
+$(if $(BUILD_EXPORT_ENV_ENABLE),,$(BUILD_EXPORT_ENV)) $(call make_cmd_vars)
+endef
+
 
 .PHONY : all image $(IMAGE_BUILD_PHASES)
 
@@ -80,7 +89,7 @@ all image :
 ifeq ($(shell echo $${BENCH_WORK_PATH}),)
 	$(Q)$(MAKE) run_$(BUILD_BOARD) USER_RUN_CMD="$(MAKE) $(MAKECMDGOALS)"
 else # ($(shell echo $${BENCH_WORK_PATH}),)
-	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(BUILD_EXPORT_ENV) $(MAKE) $@
+	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(MAKE) $(BUILD_EXPORT_ENV) $@
 endif # ($(shell echo $${BENCH_WORK_PATH}),)
 
 
@@ -107,16 +116,16 @@ $(eval $(call rule_inc,$(IMAGE_ROOT_PATH)/Config.mk))
 
 $(IMAGE_BUILD_PHASES) : 
 ifeq ($(shell echo $${BENCH_WORK_PATH}),)
-	$(Q)$(MAKE) run_$(BUILD_BOARD) USER_RUN_CMD="$(MAKE) $(MAKECMDGOALS) $(call make_cmd_vars)"
+	$(Q)$(MAKE) run_$(BUILD_BOARD) USER_RUN_CMD="$(MAKE) $(MAKECMDGOALS) $(call string_escape_double_quotes,$(call make_cmd_vars))"
 else # ($(shell echo $${BENCH_WORK_PATH}),)
-	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(BUILD_EXPORT_ENV) $(MAKE) image_$@
+	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(MAKE) image_$@ $(call build_export_env)
 endif # ($(shell echo $${BENCH_WORK_PATH}),)
 
 
 % : 
 ifeq ($(shell echo $${BENCH_WORK_PATH}),)
-	$(Q)$(MAKE) run_$(BUILD_BOARD) USER_RUN_CMD="$(MAKE) $(MAKECMDGOALS) $(call make_cmd_vars)"
+	$(Q)$(MAKE) run_$(BUILD_BOARD) USER_RUN_CMD="$(MAKE) $(MAKECMDGOALS) $(call string_escape_double_quotes,$(call make_cmd_vars))"
 else # ($(shell echo $${BENCH_WORK_PATH}),)
-	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(BUILD_EXPORT_ENV) $(MAKE) $@
+	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(MAKE) $@ $(call build_export_env)
 endif # ($(shell echo $${BENCH_WORK_PATH}),)
 

@@ -120,7 +120,7 @@ image_config : $(call phase_depend,$(BUILD_IMAGE_PATH),image_patch)
 	$(call phase_run,$(BUILD_IMAGE_PATH),$@,not_check,build install package)
 
 image_build : $(call phase_depend,$(BUILD_IMAGE_PATH),image_config)
-	$(Q)$(foreach depend,$(IMAGE_$(call string_to_upper,$(IMAGE_BUILD_GOAL))_DEPEND),$(MAKE) $(IMAGE_EXPORT_ENV) IMAGE_BUILD_GOAL=$(depend) image_install &&) $(ECHO) -n
+	$(Q)$(foreach depend,$(IMAGE_$(call string_to_upper,$(IMAGE_BUILD_GOAL))_DEPEND),$(MAKE) image_install $(call image_export_env) IMAGE_BUILD_GOAL=$(depend) &&) $(ECHO) -n
 	$(call phase_run,$(BUILD_IMAGE_PATH),$@,not_check,install package)
 
 image_install : $(call phase_depend,$(BUILD_IMAGE_PATH),image_build) $(OUTPUT_ROOT_PATH)

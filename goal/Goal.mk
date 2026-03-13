@@ -17,7 +17,7 @@ endif
 $(IMAGE_BUILD_TARGETS) : $(IMAGE_BUILD_LIST)
 
 $(IMAGE_BUILD_FULL_LIST) : 
-	$(Q)$(if $(call image_config_dir_name,$@),$(MAKE) $(IMAGE_EXPORT_ENV) IMAGE_BUILD_GOAL=$(call image_config_dir_name,$@) $(if $(findstring image,$(MAKECMDGOALS)),$(MAKECMDGOALS),$(call image_config_dir_name,$(MAKECMDGOALS))),$(call xprint,$(RED),"Invalid $@ Skip !"))
+	$(Q)$(if $(call image_config_dir_name,$@),$(MAKE) $(if $(findstring image,$(MAKECMDGOALS)),$(MAKECMDGOALS),$(call image_config_dir_name,$(MAKECMDGOALS))) $(call image_export_env) IMAGE_BUILD_GOAL=$(call image_config_dir_name,$@),$(call xprint,$(RED),"Invalid $@ Skip !"))
 
 
 

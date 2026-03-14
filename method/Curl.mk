@@ -29,14 +29,14 @@ $(shell echo "$(1)" | awk -F: '{print $$NF}')
 endef
 
 
-# image_run_fetch_wget
+# image_run_fetch_curl
 # $(1) fetch options
 # $(2) config path
 # $(3) build path
 # $(4) install path
 # $(5) fetch url
 # $(6) fetch ref
-define image_run_fetch_wget
-	$(Q)$(foreach url,$(5),src=$(call url_src,$(url)); dst=$(3)/$(call url_dst,$(url)); hash=$(call url_hash,$(url)); [ ! -f $${dst} ] && wget $(1) $${src} -O $${dst} || :; md5=`md5sum $${dst} | awk '{print $$1}'`; if [ "$${md5}" != "$${hash}" ]; then echo "File \"$${dst}\" Hash $${md5} Error !!!"; exit 1; fi;)
+define image_run_fetch_curl
+	$(Q)$(foreach url,$(5),src=$(call url_src,$(url)); dst=$(3)/$(call url_dst,$(url)); hash=$(call url_hash,$(url)); [ ! -f $${dst} ] && curl $(1) -L -o $${dst} $${src} || :; md5=`md5sum $${dst} | awk '{print $$1}'`; if [ "$${md5}" != "$${hash}" ]; then echo "File \"$${dst}\" Hash $${md5} Error !!!"; exit 1; fi;)
 endef
 

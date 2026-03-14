@@ -5,7 +5,7 @@
 
 
 # Image fetch phase
-IMAGE_FETCH_METHOD			?= wget
+IMAGE_FETCH_METHOD			?= curl
 IMAGE_FETCH_OPTS			?= 
 
 # Image patch phase

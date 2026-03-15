@@ -37,10 +37,9 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_build_ubuntu
-	$(Q)-rm -fv $(3)/$(IMAGE_UBUNTU_UEFI_CODE) $(3)/$(IMAGE_UBUNTU_UEFI_DATA)
-	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE)
-	$(Q)dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_DATA)
-	$(Q)dd if=$(3)/$(IMAGE_UBUNTU_UEFI_FW) bs=1M of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE) conv=notrunc
+	$(Q)$(if $(IMAGE_UBUNTU_UEFI_CODE),rm -fv $(3)/$(IMAGE_UBUNTU_UEFI_CODE); dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE),:)
+	$(Q)$(if $(IMAGE_UBUNTU_UEFI_DATA),rm -fv $(3)/$(IMAGE_UBUNTU_UEFI_DATA); dd if=/dev/zero bs=1M count=64 of=$(3)/$(IMAGE_UBUNTU_UEFI_DATA),:)
+	$(Q)$(if $(IMAGE_UBUNTU_UEFI_FW),dd if=$(3)/$(IMAGE_UBUNTU_UEFI_FW) bs=1M of=$(3)/$(IMAGE_UBUNTU_UEFI_CODE) conv=notrunc,:)
 	$(Q)cd $(3) && [ ! -f $(IMAGE_UBUNTU_SYSTEM) ] && \
 		qemu-img create -f qcow2 -b $(IMAGE_UBUNTU_BASE) -o backing_fmt=qcow2 $(IMAGE_UBUNTU_SYSTEM) 30G || :;
 endef

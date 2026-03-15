@@ -111,7 +111,7 @@ IMAGE_BUILD_TEMP_LIST		:= $(shell ls $(CONFIG_IMAGE_PATH)/*/*.mk 2>/dev/null | a
 IMAGE_BUILD_FULL_LIST		:= $(IMAGE_BUILD_TEMP_LIST)
 IMAGE_BUILD_FULL_LIST		+= $(foreach image,$(IMAGE_BUILD_TEMP_LIST),$(call string_to_lower,$(image)))
 IMAGE_BUILD_FULL_LIST		+= $(foreach image,$(IMAGE_BUILD_TEMP_LIST),$(call string_to_upper,$(image)))
-
+IMAGE_BUILD_FULL_LIST		:= $(sort $(IMAGE_BUILD_FULL_LIST))
 
 
 ###############################################################################

@@ -26,7 +26,7 @@ endef
 # $(3) build path
 # $(4) install path
 define image_run_config_ubuntu
-	$(Q)$(call image_run_config_ubuntu_metadata,$(3),$(IMAGE_UBUNTU_METADATA))
+	$(Q)$(call image_run_config_ubuntu_metadata,$(3),$(IMAGE_UBUNTU_METADATA_ISO))
 endef
 
 

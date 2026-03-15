@@ -163,7 +163,7 @@ IMAGE_EXPORT_ENV				+= \
 # image_export_env
 # return : image export environment variables
 define image_export_env
-$(if $(IMAGE_EXPORT_ENV_ENABLE),,$(IMAGE_EXPORT_ENV)) $(call make_cmd_vars)
+$(call string_kv_dedup,$(if $(IMAGE_EXPORT_ENV_ENABLE),,$(IMAGE_EXPORT_ENV)) $(call make_cmd_vars))
 endef
 
 

@@ -79,7 +79,7 @@ BUILD_EXPORT_ENV		= \
 # build_export_env
 # return : build export environment
 define build_export_env
-$(if $(BUILD_EXPORT_ENV_ENABLE),,$(BUILD_EXPORT_ENV)) $(call make_cmd_vars)
+$(call string_kv_dedup,$(if $(BUILD_EXPORT_ENV_ENABLE),,$(BUILD_EXPORT_ENV)) $(call make_cmd_vars))
 endef
 
 

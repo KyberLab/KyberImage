@@ -29,8 +29,6 @@ BUILD_COPYRIGHT				?= Copyright (c) 2025-$(shell date +"%Y"), Kyber Development 
 
 BUILD_LICENSE_LANG			?= en_US.UTF-8
 
-BUILD_FLAVOR				?= default
-
 
 
 ###############################################################################

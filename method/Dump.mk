@@ -170,7 +170,6 @@ define image_run_info_dump
 	$(Q)$(call xprint_filled,$(METHOD_COLOR))
 	$(Q)$(call xprint_value,	"Build Platform",		$(call string_to_camel,$(BUILD_PLATFORM)),$(METHOD_COLOR))
 	$(Q)$(call xprint_value,	"Build Board",			$(call string_to_camel,$(BUILD_BOARD)),$(METHOD_COLOR))
-	$(Q)$(call xprint_value,	"Build Flavor",			$(call string_to_camel,$(BUILD_FLAVOR)),$(METHOD_COLOR))
 	$(Q)$(call xprint_value,	"Build Type Number",	$(BUILD_TYPE_NUM),$(METHOD_COLOR))
 	$(Q)$(call xprint_value,	"Build Type String",	$(call string_to_camel,$(BUILD_TYPE_STR)),$(METHOD_COLOR))
 	$(Q)$(call xprint_filled,$(METHOD_COLOR))

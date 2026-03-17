@@ -77,7 +77,6 @@ help :
 	$(Q)$(call xprint_filled,$(IMAGE_COLOR))
 	$(Q)$(call xprint_value,	"Build Platform",			$(call string_to_camel,$(BUILD_PLATFORM)),$(IMAGE_COLOR))
 	$(Q)$(call xprint_value,	"Build Board",				$(call string_to_camel,$(BUILD_BOARD)),$(IMAGE_COLOR))
-	$(Q)$(call xprint_value,	"Build Flavor",				$(call string_to_camel,$(BUILD_FLAVOR)),$(IMAGE_COLOR))
 	$(Q)$(call xprint_value,	"Build Type Number",		$(BUILD_TYPE_NUM),$(IMAGE_COLOR))
 	$(Q)$(call xprint_value,	"Build Type String",		$(call string_to_camel,$(BUILD_TYPE_STR)),$(IMAGE_COLOR))
 	$(Q)$(call xprint_filled,$(IMAGE_COLOR))
@@ -137,8 +136,7 @@ IMAGE_EXPORT_ENV			+= \
 	$(if $(BUILD_VARIANT),BUILD_VARIANT=$(BUILD_VARIANT)) \
 	$(if $(BUILD_COPYRIGHT),BUILD_COPYRIGHT="$(BUILD_COPYRIGHT)") \
 	$(if $(BUILD_TYPE_NUM),BUILD_TYPE_NUM=$(BUILD_TYPE_NUM)) \
-	$(if $(BUILD_TYPE_STR),BUILD_TYPE_STR=$(BUILD_TYPE_STR)) \
-	$(if $(BUILD_FLAVOR),BUILD_FLAVOR=$(BUILD_FLAVOR))
+	$(if $(BUILD_TYPE_STR),BUILD_TYPE_STR=$(BUILD_TYPE_STR))
 
 IMAGE_EXPORT_ENV				+= \
 	$(if $(BUILD_VERSION),BUILD_VERSION=$(BUILD_VERSION)) \

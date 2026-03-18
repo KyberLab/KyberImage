@@ -128,3 +128,10 @@ else # ($(shell echo $${BENCH_WORK_PATH}),)
 	$(Q)cd $(WORKSPACE_ROOT_PATH)/image && $(MAKE) $@ $(call build_export_env)
 endif # ($(shell echo $${BENCH_WORK_PATH}),)
 
+
+
+###############################################################################
+# Emulator Rules
+
+$(eval $(call rule_inc,$(IMAGE_ROOT_PATH)/Emulator.mk))
+
